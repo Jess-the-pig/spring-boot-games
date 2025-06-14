@@ -10,7 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Setter
 @Getter
-public class GameCreateEvent implements Event {
+public class GameCreatedEvent implements Event {
   private String message;
   public static final String EVENT_NAME = EventName.GAME_CREATED;
 

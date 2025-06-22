@@ -1,5 +1,7 @@
 package henrotaym.env.queues.events;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import henrotaym.env.enums.EventName;
 import henrotaym.env.http.requests.GameRequest;
 import lombok.AllArgsConstructor;
@@ -12,7 +14,7 @@ import lombok.Setter;
 @Setter
 @Getter
 public class GameCreatedEvent implements Event {
-  private GameRequest message;
+  private String message;
   public static final String EVENT_NAME = EventName.GAME_CREATED;
 
   @Override
@@ -20,7 +22,12 @@ public class GameCreatedEvent implements Event {
     return EVENT_NAME;
   }
 
-  public GameRequest gamerequest() {
-    return message;
+  public GameRequest gameinfo() {
+    ObjectMapper mapper = new ObjectMapper();
+    try {
+      return mapper.readValue(message, GameRequest.class);
+    } catch (JsonProcessingException e) {
+      throw new IllegalArgumentException("Invalid message format", e);
+    }
   }
 }

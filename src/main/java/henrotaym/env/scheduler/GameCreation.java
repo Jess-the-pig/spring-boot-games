@@ -2,6 +2,7 @@ package henrotaym.env.scheduler;
 
 import henrotaym.env.enums.ProfileName;
 import henrotaym.env.http.requests.GameRequest;
+import henrotaym.env.queues.events.GameCreatedEvent;
 import henrotaym.env.services.GameService;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -11,19 +12,17 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 @Slf4j
 @Component
 @Profile(ProfileName.SCHEDULER)
-@Service
 @RequiredArgsConstructor
 public class GameCreation {
 
-  private final Queue<GameRequest> queue = new ConcurrentLinkedQueue<>();
   private final GameService gameService;
+  private final Queue<GameCreatedEvent> queue = new ConcurrentLinkedQueue<>();
 
-  public void addEvent(GameRequest event) {
+  public void addEvent(GameCreatedEvent event) {
     queue.add(event);
     log.info("✅ Événement ajouté à la file : {}", event.toString());
   }
@@ -31,14 +30,12 @@ public class GameCreation {
   @Scheduled(timeUnit = TimeUnit.SECONDS, fixedDelay = 10)
   public void handle() {
     log.info("Scheduler: Game creation runned");
-
-    GameRequest event;
+    GameCreatedEvent event;
     while ((event = queue.poll()) != null) {
-      // 💥 Traitement métier
-
-      gameService.store(event);
-
-      log.info("✅ Game créé à partir de l'event : {}", event.toString());
+      GameRequest gameInfo = event.gameinfo();
+      gameService.store(gameInfo);
+      log.info("Je suis dans la queue" + event);
+      log.info(gameInfo.toString());
     }
   }
 }

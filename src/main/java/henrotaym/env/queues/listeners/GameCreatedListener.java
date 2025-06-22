@@ -26,7 +26,7 @@ public class GameCreatedListener implements Listener<GameCreatedEvent> {
 
   @Override
   @KafkaRetryableListener(GameCreatedEvent.EVENT_NAME)
-  public void listen(GameCreatedEvent event) {
+  public void listen(String event) {
     log.info("Consumed event: {}", event);
 
     // TODO : convertir une partie vers GameRequest si besoin.

@@ -1,15 +1,18 @@
 package henrotaym.env.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.List;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -30,7 +33,7 @@ public class Studio {
   private String name;
 
   @OneToMany(mappedBy = "studio")
-  @JsonBackReference
+  @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
   @Setter(value = AccessLevel.NONE)
   private List<Game> games = new ArrayList<Game>();
 }

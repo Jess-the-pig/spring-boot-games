@@ -45,4 +45,5 @@ public class GameSerializer {
 
     return this.hasIncludablesSerializer.serialize(gameResource, include);
   }
+  
 }

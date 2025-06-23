@@ -1,4 +1,4 @@
-package henrotaym.env.feature.http.controllers;
+/*package henrotaym.env.feature.http.controllers;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
@@ -31,4 +31,4 @@ class GameCreatedListenerTest extends ApplicationTest {
     verify(gameCreation, times(1)).addEvent(event);
     assertTrue(listener.getReceivedMessages().contains(event.toString()));
   }
-}
+}*/

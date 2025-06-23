@@ -1,6 +1,7 @@
 package henrotaym.env.entities;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -35,12 +36,12 @@ public class Game {
 
   @OneToOne()
   @JoinColumn(name = "cover_id", unique = true)
-  @JsonManagedReference
+  @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
   private Cover cover;
 
   @ManyToOne(optional = false)
   @JoinColumn(name = "studio_id", nullable = false)
-  @JsonManagedReference
+  @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
   private Studio studio;
 
   @ManyToMany()
@@ -48,7 +49,7 @@ public class Game {
       name = "game_tag",
       joinColumns = @JoinColumn(name = "game_id", nullable = false),
       inverseJoinColumns = @JoinColumn(name = "tag_id", nullable = false))
-  @JsonManagedReference
+  @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
   private List<Tag> tags = new ArrayList<Tag>();
 
   public void setTags(List<Tag> tags) {

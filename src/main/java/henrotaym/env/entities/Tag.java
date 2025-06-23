@@ -1,6 +1,7 @@
 package henrotaym.env.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -29,7 +30,7 @@ public class Tag {
   private String name;
 
   @ManyToMany(mappedBy = "tags")
-  @JsonBackReference
+  @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
   private List<Game> games = new ArrayList<>();
 
   public void setGames(List<Game> games) {
